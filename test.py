@@ -93,7 +93,7 @@ def main(opt):
                         sk_pil = sk_pil.resize((113, 113))
 
                         character = char_dict[character_id[i].item()]
-                        save_path = os.path.join(opt.save_dir, 'test',
+                        save_path = os.path.join(opt.save_dir, 'test', 
                                         str(writer_id[i].item()) + '_' + character+'.jpg')
                         try:
                             sk_pil.save(save_path)
