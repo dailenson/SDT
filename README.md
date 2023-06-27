@@ -121,4 +121,6 @@ If you find our work inspiring or use our codebase in your research, please cite
 ```
 
 ## ⭐ StarGraph
-![StarGraph](https://star-history.com/embed?secret=Z2hwX3Y4VjB3Q09CNkVTT2FFR3BtMEdheUlIb2dBZFN4RjBWaHJ3WQ==#dailenson/SDT&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=dailenson/SDT&type=Timeline)](https://star-history.com/#dailenson/SDT&Timeline)
+
+
