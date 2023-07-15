@@ -6,7 +6,7 @@
   <b>
     <a href="https://arxiv.org/abs/2303.14736">ArXiv</a>
     |
-    <a href="https://github.com/dailenson/SDT/static/Poster_SDT.pdf">Poster</a>
+    <a href="https://github.com/dailenson/SDT/blob/master/static/Poster_SDT.pdf">Poster</a>
     | 
     <a href="https://youtu.be/mKbYLEwa4dI">Video</a>
     | 
