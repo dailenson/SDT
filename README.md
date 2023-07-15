@@ -1,6 +1,19 @@
 ![MIT LICENSE](https://shields.io/badge/license-MIT-green)
 ![python 3.8](https://img.shields.io/badge/python-3.8-brightgreen)
 # 🔥 Disentangling Writer and Character Styles for Handwriting Generation
+
+ <p align='center'>
+  <b>
+    <a href="https://arxiv.org/abs/2303.14736">ArXiv</a>
+    |
+    <a href="https://github.com/dailenson/SDT/static/Poster_SDT.pdf">Poster</a>
+    | 
+    <a href="https://youtu.be/mKbYLEwa4dI">Video</a>
+    | 
+    <a href="https://cvpr2023.thecvf.com/virtual/2023/poster/20954">Project</a>
+  </b>
+</p> 
+
 ## 📢 Introduction
 - The proposed style-disentangled Transformer (SDT) generates online handwritings with conditional content and style. Existing RNN-based methods mainly focus on capturing a person’s overall writing style, neglecting subtle style inconsistencies between characters written by the same person. In light of this, SDT disentangles the writer-wise and character-wise style representations from individual handwriting samples for enhancing imitation performance.
 - We extend SDT and introduce an offline-to-offline framework for improving the generation quality of offline Chinese handwritings.
