@@ -89,12 +89,12 @@ def main(opt):
                     for i, pred in enumerate(preds):
                         """intends to blur the boundaries of each sample to fit the actual using situations,
                             as suggested in 'Deep imitator: Handwriting calligraphy imitation via deep attention networks'"""
-                        sk_pil = coords_render(preds[i], split=True, width=48, height=48, thickness=1, board=0)
-                        sk_pil = sk_pil.resize((113, 113))
+                        sk_pil = coords_render(preds[i], split=True, width=256, height=256, thickness=8, board=0)
+                        #sk_pil = sk_pil.resize((113, 113))
 
                         character = char_dict[character_id[i].item()]
                         save_path = os.path.join(opt.save_dir, 'test',
-                                        str(writer_id[i].item()) + '_' + character+'.jpg')
+                                        str(writer_id[i].item()) + '_' + character+'.png')
                         try:
                             sk_pil.save(save_path)
                         except:
