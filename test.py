@@ -49,15 +49,17 @@ def main(opt):
     if opt.sample_size == 'all':
         batch_samples = len(test_loader)
     else:
-        batch_samples = int(opt.sample_size)*len(writer_dict)/cfg.TRAIN.IMS_PER_BATCH
+        batch_samples = int(opt.sample_size)*len(writer_dict)//cfg.TRAIN.IMS_PER_BATCH
 
     batch_num, num_count= 0, 0
+    data_iter = iter(test_loader)
     with torch.no_grad():
-        for data in tqdm.tqdm(test_loader):
+        for _ in tqdm.tqdm(range(batch_samples)):
             batch_num += 1
             if batch_num > batch_samples:
                 break
             else:
+                data = next(data_iter)
                 # prepare input
                 coords, coords_len, character_id, writer_id, img_list, char_img = data['coords'].cuda(), \
                     data['coords_len'].cuda(), \
