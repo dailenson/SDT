@@ -67,6 +67,7 @@ class ScriptDataset(Dataset):
                         pass
 
     def __getitem__(self, index):
+        index = self.indexes[index]
         with self.lmdb.begin(write=False) as txn:
             data = pickle.loads(txn.get(str(index).encode('utf-8')))
             tag_char, coords, fname = data['tag_char'], data['coordinates'], data['fname']
