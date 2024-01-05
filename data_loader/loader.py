@@ -8,6 +8,7 @@ import pickle
 from torchvision import transforms
 import lmdb
 from utils.util import corrds2xys
+import codecs
 
 transform_data = transforms.Compose([
     transforms.ToTensor(),
@@ -15,13 +16,14 @@ transform_data = transforms.Compose([
 ])
 
 script={"CHINESE":['CASIA_CHINESE', 'Chinese_content.pkl'],
-        'JANPANESE':['TUATHANDS_JAPANESE', 'Japanese_content.pkl'],
+        'JAPANESE':['TUATHANDS_JAPANESE', 'Japanese_content.pkl'],
         "ENGLISH":['CASIA_ENGLISH', 'English_content.pkl']
         }
 
 class ScriptDataset(Dataset):
     def __init__(self, root='data', dataset='CHINESE', is_train=True, num_img = 15):
         data_path = os.path.join(root, script[dataset][0])
+        self.dataset = dataset
         self.content = pickle.load(open(os.path.join(data_path, script[dataset][1]), 'rb')) #content samples
         self.char_dict = pickle.load(open(os.path.join(data_path, 'character_dict.pkl'), 'rb'))
         self.all_writer = pickle.load(open(os.path.join(data_path, 'writer_dict.pkl'), 'rb'))
@@ -85,8 +87,10 @@ class ScriptDataset(Dataset):
             tmp_img = tmp_img/255.
             tmp_label = style_samples[idx]['label']
             img_list.append(tmp_img)
+            if self.dataset == 'JAPANESE':
+                tmp_label = bytes.fromhex(tmp_label[5:])
+                tmp_label = codecs.decode(tmp_label, "cp932")
             img_label.append(tmp_label)
-            
         img_list = np.expand_dims(np.array(img_list), 1) # [N, C, H, W], C=1
         coords = normalize_xys(coords) # Coordinate Normalization
 
