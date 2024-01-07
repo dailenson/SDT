@@ -9,6 +9,8 @@ from torchvision import transforms
 import lmdb
 from utils.util import corrds2xys
 import codecs
+import glob
+import cv2
 
 transform_data = transforms.Compose([
     transforms.ToTensor(),
@@ -197,3 +199,30 @@ class Online_Dataset(Dataset):
             output['character_id'][i] = batch_data[i]['character_id']
             output['writer_id'][i] = batch_data[i]['writer_id']
         return output
+    
+
+class UserDataset(Dataset):
+    def __init__(self, root='data', dataset='CHINESE', style_path='style_samples'):
+        data_path = os.path.join(root, script[dataset][0])
+        self.content = pickle.load(open(os.path.join(data_path, script[dataset][1]), 'rb')) #content samples
+        self.char_dict = pickle.load(open(os.path.join(data_path, 'character_dict.pkl'), 'rb'))
+        self.style_path = glob.glob(style_path+'/*.[jp][pn]g')
+
+    def __len__(self):
+        return len(self.char_dict)
+    
+    def __getitem__(self, index):
+        char = self.char_dict[index] # content samples
+        char_img = self.content[char] 
+        char_img = char_img/255. # Normalize pixel values between 0.0 and 1.0
+        img_list = []
+        for idx in range(len(self.style_path)):
+            style_img = cv2.imread(self.style_path[idx], flags=0)
+            style_img = cv2.resize(style_img, (64, 64))
+            style_img = style_img/255.
+            img_list.append(style_img)
+        img_list = np.expand_dims(np.array(img_list), 1)
+        
+        return {'char_img': torch.Tensor(char_img).unsqueeze(0),
+                'img_list': torch.Tensor(img_list),
+                'char': char}

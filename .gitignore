@@ -3,3 +3,6 @@ data/*
 Saved/*
 model_zoo/*.pth
 auto_*
+.vscode
+Generated
+style_samples
