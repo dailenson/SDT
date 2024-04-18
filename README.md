@@ -28,6 +28,16 @@
 - **Extension on offline Chinese handwriting generation**
 ![offline Chinese](static/offline_Chinese.jpg)
 
+## 🏰 Practical Application
+We are delighted to discover that **[P0etry-rain](https://github.com/P0etry-rain)** has proposed a pipeline that involves initially converting the generated results by our SDT to TTF format, followed by the development of software to enable flexible adjustments in spacing between paragraphs, lines, and characters. Below, we present TTF files, software interface and the printed results for your reference. More details can be seen in [#78](https://github.com/dailenson/SDT/issues/78#issue-2247810028).
+- **TTF File**
+![SVG](static/svg.png)
+
+- **Software Interface**
+![Interface](static/software.png)
+
+- **Printed Results**
+![Result](static/print.png)
 
 ## 🔨 Requirements
 ```
