@@ -20,9 +20,15 @@
 
 ![overview_sdt](static/overview_sdt.jpg)
 
+<center>
+<img src="static/duo.gif" width="170"><img src="static/mo.gif" width="170"><img src="static/tai.gif" width="170">
+</center>
+
+
 ## 📺 Handwriting generation results
 - **Online Chinese handwriting generation**
 ![online Chinese](static/online_Chinese.jpg)
+
 - **Applications to various scripts**
 ![other scripts](static/various_scripts.jpg)
 - **Extension on offline Chinese handwriting generation**
