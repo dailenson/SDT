@@ -20,9 +20,9 @@
 
 ![overview_sdt](static/overview_sdt.jpg)
 
-<center>
+<div style="display: flex; justify-content: center;">
 <img src="static/duo.gif" width="170"><img src="static/mo.gif" width="170"><img src="static/tai.gif" width="170">
-</center>
+</div>
 
 
 ## 📺 Handwriting generation results
