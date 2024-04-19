@@ -21,7 +21,7 @@
 ![overview_sdt](static/overview_sdt.jpg)
 
 <div style="display: flex; justify-content: center;">
-<img src="static/duo.gif" width="170"><img src="static/mo.gif" width="170"><img src="static/tai.gif" width="170">
+<img src="static/duo.gif" style="flex: 1; width: 33.33%;"><img src="static/mo.gif" style="flex: 1; width: 33.33%;"><img src="static/tai.gif" style="flex: 1; width: 33.33%;">
 </div>
 
 
