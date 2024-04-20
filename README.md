@@ -23,16 +23,16 @@
 <div style="display: flex; flex-direction: column; align-items: center; ">
 <img src="static/overview_sdt.jpg" style="width: 100%;">
 </div>
-<center>
-<figcaption style="margin-bottom: 10px;">Overview of our SDT</figcaption>
-</center>
+<p align="center" style="margin-bottom: 10px;">
+Overview of our SDT
+</p>
 
 <div style="display: flex; justify-content: center;">
 <img src="static/duo_loop.gif" style="width: 33.33%;"><img src="static/mo_loop.gif" style="width: 33.33%;"><img src="static/tai_loop.gif" style="width: 33.33%;">
 </div>
-<center>
-<figcaption>Three samples of online characters with writing orders</figcaption>
-</center>
+<p align="center">
+Three samples of online characters with writing orders
+</p>
 
 
 ## 📺 Handwriting generation results
