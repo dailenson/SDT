@@ -18,11 +18,27 @@
 - The proposed style-disentangled Transformer (SDT) generates online handwritings with conditional content and style. Existing RNN-based methods mainly focus on capturing a person’s overall writing style, neglecting subtle style inconsistencies between characters written by the same person. In light of this, SDT disentangles the writer-wise and character-wise style representations from individual handwriting samples for enhancing imitation performance.
 - We extend SDT and introduce an offline-to-offline framework for improving the generation quality of offline Chinese handwritings.
 
-![overview_sdt](static/overview_sdt.jpg)
+
+
+<div style="display: flex; flex-direction: column; align-items: center; ">
+<img src="static/overview_sdt.jpg" style="width: 100%;">
+</div>
+<p align="center" style="margin-bottom: 10px;">
+Overview of our SDT
+</p>
+
+<div style="display: flex; justify-content: center;">
+<img src="static/duo_loop.gif" style="width: 33.33%;"><img src="static/mo_loop.gif" style="width: 33.33%;"><img src="static/tai_loop.gif" style="width: 33.33%;">
+</div>
+<p align="center">
+Three samples of online characters with writing orders
+</p>
+
 
 ## 📺 Handwriting generation results
 - **Online Chinese handwriting generation**
 ![online Chinese](static/online_Chinese.jpg)
+
 - **Applications to various scripts**
 ![other scripts](static/various_scripts.jpg)
 - **Extension on offline Chinese handwriting generation**
@@ -120,6 +136,19 @@ python test.py --pretrained_model checkpoint_path --store_type online --sample_s
 ```
 python evaluate.py --data_path Generated/Chinese
 ```
+
+## 🏰 Practical Application
+We are delighted to discover that **[P0etry-rain](https://github.com/P0etry-rain)** has proposed a pipeline that involves initially converting the generated results by our SDT to TTF format, followed by the development of software to enable flexible adjustments in spacing between paragraphs, lines, and characters. Below, we present TTF files, software interface and the printed results. More details can be seen in [#78](https://github.com/dailenson/SDT/issues/78#issue-2247810028).
+- **TTF File**
+![SVG](static/svg.png)
+
+- **Software Interface**
+![Interface](static/software.png)
+
+- **Printed Results**
+![Result](static/print.png)
+
+
 
 ## ❤️ Citation
 If you find our work inspiring or use our codebase in your research, please cite our work:
