@@ -15,9 +15,10 @@
 </p> 
 
 ## 📢 Introduction
-- The proposed style-disentangled Transformer (SDT) generates online handwritings with conditional content and style. Existing RNN-based methods mainly focus on capturing a person’s overall writing style, neglecting subtle style inconsistencies between characters written by the same person. In light of this, SDT disentangles the writer-wise and character-wise style representations from individual handwriting samples for enhancing imitation performance.
+- The proposed style-disentangled Transformer (SDT) generates online handwritings with conditional content and style.
+- Existing RNN-based methods mainly focus on capturing a person’s overall writing style, neglecting subtle style inconsistencies between characters written by the same person.
+- In light of this, SDT disentangles the writer-wise and character-wise style representations from individual handwriting samples for enhancing imitation performance.
 - We extend SDT and introduce an offline-to-offline framework for improving the generation quality of offline Chinese handwritings.
-
 
 
 <div style="display: flex; flex-direction: column; align-items: center; ">
