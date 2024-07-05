@@ -53,6 +53,7 @@ python 3.8
 pytorch >=1.8
 easydict 1.9
 einops 0.4.1
+lmdb 1.4.1
 ```
 ## 📂 Folder Structure
   ```
