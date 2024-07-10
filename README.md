@@ -46,12 +46,12 @@ Three samples of online characters with writing orders
 
 ## 🔨 Requirements
 ```
-python 3.8
-pytorch >=1.8
-easydict 1.9
-einops 0.4.1
-lmdb 1.4.1
+conda create -n sdt python=3.8 -y
+conda activate sdt
+# install all dependencies
+pip install -r requirements.txt
 ```
+
 ## 📂 Folder Structure
   ```
   SDT/
