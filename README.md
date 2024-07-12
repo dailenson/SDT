@@ -33,6 +33,14 @@ Overview of our SDT
 Three samples of online characters with writing orders
 </p>
 
+## 📅 News
+- [2024/07/01] 🎉🎉🎉 A new state-of-the-art method for handwritten text generation, named One-DM, is accepted by ECCV 2024. 
+- [2024/01/07] Add a tutorial and code for synthesizing handwriting with user-customized styles, more information can be found [here](https://github.com/dailenson/SDT/issues/43).
+- [2023/12/15] 🎉🎉🎉 This work is reported by a top [bilibili](https://www.bilibili.com/video/BV19w411t7vD/?buvid=XX73A437799B0DCC93D6D21690FA9CAE696EC&from_spmid=default-value&is_story_h5=false&mid=Xr0IfLrZqLFnTCriRB2HcQ%3D%3D&p=1&plat_id=116&share_from=ugc&share_medium=android&share_plat=android&share_session_id=2f9e186f-d693-4b61-80c6-372942bec32b&share_source=WEIXIN&share_source=weixin&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1720580374&unique_k=OqWsKIV&up_id=19319172) video blogger with 2.7 million followers and received nearly one million views.
+- [2023/10/10] The [author](https://scholar.google.com.hk/citations?user=a2SwkisAAAAJ&hl=zh-CN) is invited to give a [talk](https://www.bilibili.com/video/BV1kQ4y1W7a7/?spm_id_from=333.999.0.0&vd_source=cbc77ced94dbf77f5ecef4e0afa94a33) (in Chinese) by CSIG (China Society of Image and Graphics).
+- [2023/06/14] This work is reported by [Synced](https://mp.weixin.qq.com/s/EX_Loj4PvIztQH5zrl2FNw) (机器之心).
+- [2023/04/12] Initial release of the datasets, pre-trained models, training and testing codes.
+- [2023/02/28] 🎉🎉🎉 Our SDT is accepted by CVPR 2023.
 
 ## 📺 Handwriting generation results
 - **Online Chinese handwriting generation**
