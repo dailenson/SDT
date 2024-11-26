@@ -5,6 +5,7 @@ import numpy as np
 import tqdm
 from fastdtw import fastdtw
 from models.eval_model import *
+
 def fast_norm_len_dtw(test_loader):
     """start test iterations"""
     euclidean = lambda x, y: np.sqrt(sum((x - y) ** 2))
@@ -69,13 +70,11 @@ def get_content_score(test_loader,pretrained_model):
     total = torch.zeros(1).squeeze().cuda()
 
     for data in tqdm.tqdm(test_loader):
-        # prepare input
         coords, coords_len, character_id, writer_id = data['coords'].cuda(), \
                                                       data['coords_len'].cuda(), \
                                                       data['character_id'].long().cuda(), \
                                                       data['writer_id'].long().cuda()
 
-        # forward
         with torch.no_grad():   
             coords = torch.transpose(coords, 1, 2)
             logits = Net(coords, coords_len)

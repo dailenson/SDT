@@ -3,11 +3,11 @@ from torch import nn
 import torch.nn.functional as F
 from ptflops import get_model_complexity_info
 
+### The model used to calculate Style Score 
 class offline_style(nn.Module):
     def __init__(self, num_class=240, vote=False):
         super(offline_style, self).__init__()
         self.l1 = nn.Sequential(nn.Conv2d(1,96,5,2),nn.BatchNorm2d(96),nn.ReLU(),nn.MaxPool2d(3,2))
-        # self.l1 = nn.Sequential(nn.Conv2d(1,96,5,2),nn.BatchNorm2d(96),nn.ReLU())
         self.l2 = nn.Sequential(nn.Conv2d(96,256,3,1,1),nn.BatchNorm2d(256),nn.ReLU(),nn.MaxPool2d(3,2))
         self.l3 = nn.Sequential(nn.Conv2d(256,384,3,1,1),nn.BatchNorm2d(384),nn.ReLU(),
                                 nn.Conv2d(384,384,3,1,1),nn.BatchNorm2d(384),nn.ReLU(),nn.MaxPool2d(3,2))
@@ -39,9 +39,9 @@ class offline_style(nn.Module):
             n1,c1,h1,w1 = out.size()
             out = torch.mean(out.view(n,c,c1,h1,w1),1)
             out = self.fc1(out)
-            # if not self.training:
-            #     out = out.view(n,c,-1)
             return out
+
+### The model used to calculate Content Score    
 class Character_Net(nn.Module):
     def __init__(self, nclass=3755):
         super(Character_Net, self).__init__()
@@ -63,7 +63,6 @@ class Character_Net(nn.Module):
 
         self.l9 = nn.Sequential(nn.Conv1d(256, 256, kernel_size=3, stride=1, padding=1), nn.ReLU())
 
-        # self.l10 = nn.AvgPool1d()#Custom_maskAveragePooling # stride = 8
         print('num of character is {}'.format(nclass))
         self.l11 = nn.Linear(256, nclass)
 
@@ -82,21 +81,17 @@ class Character_Net(nn.Module):
         return x
 
 def mask_avr_pooling_rnn(x, l):
-    # x: NTC, l:N
     N,T,C = x.size()
     mask = length_to_mask(l, max_len=T)
     mask = mask.unsqueeze(-1)
-    # print(mask.shape)
     o = torch.sum(x*mask, dim=-2, keepdim=False)
     o = o/(l.unsqueeze(-1)+1e-5)
     return o
 
 def mask_avr_pooling(x, l):
-    # x: NTC, l:N
     N,C,T = x.size()
     mask = length_to_mask(l, max_len=T)
     mask = mask.unsqueeze(1)
-    # print(mask.shape)
     o = torch.sum(x*mask, dim=-1, keepdim=False)
     o = o/(l.unsqueeze(-1)+1e-5)
     return o

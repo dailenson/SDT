@@ -226,6 +226,11 @@ class UserDataset(Dataset):
         return {'char_img': torch.Tensor(char_img).unsqueeze(0),
                 'img_list': torch.Tensor(img_list),
                 'char': char}
+
+"""
+ loading generated offline characters for calculating the Style Score
+ takes 15 characters belonging to the same person as one input set
+"""
 class test_offline_Style_Dataset(Dataset):
     def __init__(self, root=None, is_train=True, num_img=15):
         self.is_train = is_train
@@ -277,6 +282,9 @@ class test_offline_Style_Dataset(Dataset):
     def __len__(self):
         return self.all_len
 
+"""
+ loading generated online characters for calculating the Content Score
+"""
 class Online_Gen_Dataset(Dataset):
     def __init__(self, data_path='lmdb', is_train=True):
         self.is_train = is_train
@@ -289,15 +297,10 @@ class Online_Gen_Dataset(Dataset):
             raise NotImplementedError
         
         self.char_dict = pickle.load(open(os.path.join(data_path, 'character_dict.pkl'), 'rb'))
-        if len(self.char_dict) == 7185:
-            self.use_gb = True
-            self.GB2312_char_dict = pickle.load(open('./data/GB2312_character_dict.pkl', 'rb'))
-        else:
-            self.use_gb = False
         self.writer_dict = pickle.load(open(os.path.join(data_path, 'writer_dict.pkl'), 'rb'))
         self.lmdb = lmdb.open(lmdb_path, max_readers=8, readonly=True, lock=False, readahead=False, meminit=False)
-        self.max_len = -1  # 100 disable
-        self.alphabet = ''  # '01234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        self.max_len = -1 
+        self.alphabet = '' 
         self.cat_xy_grid = True
 
         with self.lmdb.begin(write=False) as txn:
@@ -334,10 +337,6 @@ class Online_Gen_Dataset(Dataset):
             print('error')
             return self[index+1]
 
-
-        if self.use_gb:
-            char = self.char_dict[character_id]
-            character_id = self.GB2312_char_dict.find(char)
         if coords is None:
             return self[index+1]
         else:
@@ -352,7 +351,7 @@ class Online_Gen_Dataset(Dataset):
     def collate_fn_(self, batch_data):
         bs = len(batch_data)
         max_len = max([s['coords'].shape[0] for s in batch_data])
-        output = {'coords': torch.zeros((bs, max_len, 5)), # (x,y,state)
+        output = {'coords': torch.zeros((bs, max_len, 5)),
                   'coords_len': torch.zeros((bs, )),
                   'character_id': torch.zeros((bs,)),
                   'writer_id': torch.zeros((bs,))}
@@ -363,5 +362,5 @@ class Online_Gen_Dataset(Dataset):
             output['coords_len'][i] = s
             output['character_id'][i] = batch_data[i]['character_id']
             output['writer_id'][i] = batch_data[i]['writer_id']
-        # output['coords'][:,:,:2] = output['coords'][:,:,:2]*200.
+
         return output
