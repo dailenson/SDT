@@ -107,9 +107,9 @@ We provide Chinese, Japanese and English datasets in [Google Drive](https://driv
 | Model|Google Drive|Baidu Netdisk|
 |---------------|---------|-----------------------------------------|
 |Well-trained SDT|[Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
-|Pretrained content encoder|[Google Drive](https://drive.google.com/drive/folders/1N-MGRnXEZmxAW-98Hz2f-o80oHrNaN_a?usp=share_link) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
-|Content recognizer|[Google Drive](https://drive.google.com/drive/folders/1-2ciY6yfI4l1bVUD661EzEW5PInZb_62?usp=sharing)|[Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
-|Writer identifier|[Google Drive](https://drive.google.com/drive/folders/1-2ciY6yfI4l1bVUD661EzEW5PInZb_62?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
+|Content encoder|[Google Drive](https://drive.google.com/drive/folders/1N-MGRnXEZmxAW-98Hz2f-o80oHrNaN_a?usp=share_link) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
+|Content recognizer|[Google Drive](https://drive.google.com/drive/folders/1-2ciY6yfI4l1bVUD661EzEW5PInZb_62?usp=sharing)|[Baidu Netdisk]( https://pan.baidu.com/s/1cs8qWOhwISZz7w1dAYMQ3g?pwd=s8e8)
+|Writer identifier|[Google Drive](https://drive.google.com/drive/folders/1-2ciY6yfI4l1bVUD661EzEW5PInZb_62?usp=sharing) | [Baidu Netdisk]( https://pan.baidu.com/s/1cs8qWOhwISZz7w1dAYMQ3g?pwd=s8e8)
 
 **Note**:
 Please download these weights, and move them to /model_zoo.
@@ -132,19 +132,30 @@ python train.py --cfg configs/English_CASIA.yml --log English_log
 ```
 
 **Qualitative Test**
-- To generate Chinese handwritings with our SDT, run this command:
+- To generate online Chinese handwritings with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/Chinese
 ```
+- To generate offline Chinese handwriting images with our SDT, run this command:
+```
+python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/Chinese
+```
 
-- To generate Japanese handwritings with our SDT, run this command:
+- To generate online Japanese handwritings with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/Japanese
 ```
-
-- To generate English handwritings with our SDT, run this command:
+- To generate offline Japanese handwriting images with our SDT, run this command:
+```
+python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/Japanese
+```
+- To generate online English handwritings with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/English
+```
+- To generate offline English handwriting images with our SDT, run this command:
+```
+python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/English
 ```
 
 **Quantitative Evaluation**
@@ -156,7 +167,7 @@ python evaluate.py --data_path Generated/Chinese --metric DTW
 ```
 python evaluate.py --data_path Generated/Chinese --metric Content_score --pretrained_content_model model_zoo/chinese_content_iter30k_acc95.pth
 ```
-- To calculate the Style Score of generated handwritings, you need to set `data_path` to the path of the generated handwritings (e.g., Generated_img/Chinese), and run this command:
+- To calculate the Style Score of generated handwritings, you need to set `data_path` to the path of the generated handwriting images (e.g., Generated_img/Chinese), and run this command:
 ```
 python evaluate.py --data_path Generated_img/Chinese --metric Style_score --pretrained_style_model models_zoo/chinese_style_iter60k_acc999.pth
 ```
