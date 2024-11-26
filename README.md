@@ -34,6 +34,7 @@ Three samples of online characters with writing orders
 </p>
 
 ## 📅 News
+- [2024/11/26] 🎉🎉🎉 Release of the implementations of Content Score and Style Score. 
 - [2024/07/01] 🎉🎉🎉 A new state-of-the-art method for handwritten text generation, named [One-DM](https://github.com/dailenson/One-DM), is accepted by ECCV 2024. 
 - [2024/01/07] Add a tutorial and code for synthesizing handwriting with user-customized styles, more information can be found [here](https://github.com/dailenson/SDT/issues/43).
 - [2023/12/15] 🎉🎉🎉 This work is reported by a top [bilibili](https://www.bilibili.com/video/BV19w411t7vD/?buvid=XX73A437799B0DCC93D6D21690FA9CAE696EC&from_spmid=default-value&is_story_h5=false&mid=Xr0IfLrZqLFnTCriRB2HcQ%3D%3D&p=1&plat_id=116&share_from=ugc&share_medium=android&share_plat=android&share_session_id=2f9e186f-d693-4b61-80c6-372942bec32b&share_source=WEIXIN&share_source=weixin&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1720580374&unique_k=OqWsKIV&up_id=19319172) video blogger with 2.7 million followers and received nearly one million views.
@@ -103,8 +104,16 @@ conda env create -f environment.yml
 We provide Chinese, Japanese and English datasets in [Google Drive](https://drive.google.com/drive/folders/17Ju2chVwlNvoX7HCKrhJOqySK-Y-hU8K?usp=share_link) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u. Please download these datasets, uzip them and move the extracted files to /data.
 
 ## 🍔 Pre-trained model
-- We provide the pre-trained content encoder model in [Google Drive](https://drive.google.com/drive/folders/1N-MGRnXEZmxAW-98Hz2f-o80oHrNaN_a?usp=share_link) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u. Please download and put it to the /model_zoo. 
-- We provide the well-trained SDT model in [Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u, so that users can get rid of retraining one and play it right away.
+
+| Model|Google Drive|Baidu Netdisk|
+|---------------|---------|-----------------------------------------|
+|Well-trained SDT|[Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
+|Content encoder|[Google Drive](https://drive.google.com/drive/folders/1N-MGRnXEZmxAW-98Hz2f-o80oHrNaN_a?usp=share_link) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA?pwd=xu9u)
+|Content Score|[Google Drive](https://drive.google.com/drive/folders/1-2ciY6yfI4l1bVUD661EzEW5PInZb_62?usp=sharing)|[Baidu Netdisk]( https://pan.baidu.com/s/1cs8qWOhwISZz7w1dAYMQ3g?pwd=s8e8)
+|Style Score|[Google Drive](https://drive.google.com/drive/folders/1-2ciY6yfI4l1bVUD661EzEW5PInZb_62?usp=sharing) | [Baidu Netdisk]( https://pan.baidu.com/s/1cs8qWOhwISZz7w1dAYMQ3g?pwd=s8e8)
+
+**Note**:
+Please download these weights, and move them to /model_zoo.
 
 ## 🚀 Training & Test
 **Training**
@@ -124,27 +133,45 @@ python train.py --cfg configs/English_CASIA.yml --log English_log
 ```
 
 **Qualitative Test**
-- To generate Chinese handwritings with our SDT, run this command:
+- To generate **online Chinese handwritings** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/Chinese
 ```
+- To generate **offline Chinese handwriting images** with our SDT, run this command:
+```
+python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/Chinese
+```
 
-- To generate Japanese handwritings with our SDT, run this command:
+- To generate **online Japanese handwritings** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/Japanese
 ```
-
-- To generate English handwritings with our SDT, run this command:
+- To generate **offline Japanese handwriting images** with our SDT, run this command:
+```
+python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/Japanese
+```
+- To generate **online English handwritings** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/English
+```
+- To generate **offline English handwriting images** with our SDT, run this command:
+```
+python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/English
 ```
 
 **Quantitative Evaluation**
 - To evaluate the generated handwritings, you need to set `data_path` to the path of the generated handwritings (e.g., Generated/Chinese), and run this command:
 ```
-python evaluate.py --data_path Generated/Chinese
+python evaluate.py --data_path Generated/Chinese --metric DTW
 ```
-
+- To calculate the Content Score of generated handwritings, you need to set `data_path` to the path of the generated handwritings (e.g., Generated/Chinese), and run this command:
+```
+python evaluate.py --data_path Generated/Chinese --metric Content_score --pretrained_model model_zoo/chinese_content_iter30k_acc95.pth
+```
+- To calculate the Style Score of generated handwritings, you need to set `data_path` to the path of the generated handwriting images (e.g., Generated_img/Chinese), and run this command:
+```
+python evaluate.py --data_path Generated_img/Chinese --metric Style_score --pretrained_model models_zoo/chinese_style_iter60k_acc999.pth
+```
 ## 🏰 Practical Application
 We are delighted to discover that **[P0etry-rain](https://github.com/P0etry-rain)** has proposed a pipeline that involves initially converting the generated results by our SDT to TTF format, followed by the development of software to enable flexible adjustments in spacing between paragraphs, lines, and characters. Below, we present TTF files, software interface and the printed results. More details can be seen in [#78](https://github.com/dailenson/SDT/issues/78#issue-2247810028).
 - **TTF File**
