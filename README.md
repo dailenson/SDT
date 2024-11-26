@@ -147,9 +147,9 @@ python evaluate.py --data_path Generated/Chinese --metric DTW
 ```
 - To calculate the Content Score of generated handwritings, you need to set `data_path` and `pretrained_content_model` to the path of the generated handwritings(e.g., Generated/Chinese) and the pretrained content recognizer(e.g., models_zoo/chinese_iter30k_acc95.pth), and run this command:
 ```
-python evaluate.py --data_path Generated/Chinese --metric Content_score --pretrained_content_model models_zoo/chinese_iter30k_acc95.pth
+python evaluate.py --data_path Generated/Chinese --metric Content_score --pretrained_content_model model_zoo/chinese_iter30k_acc95.pth
 ```
-- To calculate the Style Score of generated handwritings, you need to set `data_path` and `pretrained_style_model` to the path of the generated handwritings(e.g., Generated_img/Chinese) and the pretrained writer identifier(e.g., models_zoo/chinese_iter60k_acc999.pth), and run this command:
+- To calculate the Style Score of generated handwritings, you need to set `data_path` and `pretrained_style_model` to the path of the generated handwritings(e.g., Generated_img/Chinese) and the pretrained writer identifier(e.g., model_zoo/chinese_iter60k_acc999.pth), and run this command:
 ```
 python evaluate.py --data_path Generated_img/Chinese --metric Style_score --pretrained_style_model models_zoo/chinese_iter60k_acc999.pth
 ```
