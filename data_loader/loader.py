@@ -11,7 +11,7 @@ from utils.util import corrds2xys
 import codecs
 import glob
 import cv2
-
+from PIL import ImageDraw, Image
 transform_data = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean = (0.5), std = (0.5))
@@ -226,3 +226,142 @@ class UserDataset(Dataset):
         return {'char_img': torch.Tensor(char_img).unsqueeze(0),
                 'img_list': torch.Tensor(img_list),
                 'char': char}
+class test_offline_Style_Dataset(Dataset):
+    def __init__(self, root=None, is_train=True, num_img=15):
+        self.is_train = is_train
+        self.train_path = {}
+        self.test_path = {}
+        self.all_len = 0
+        self.num_img = num_img
+        if os.path.exists(os.path.join(root, 'writer_dict.pkl')):
+            self.writer_dict = pickle.load(open(os.path.join(root, 'writer_dict.pkl'), 'rb'))
+        else:
+            self.writer_dict = [i for i in range(60)]
+        all_jpg = glob.glob(os.path.join(root,'test/*.jpg'))
+        all_jpg = sorted(all_jpg)
+        self.all_len = len(all_jpg)
+        for path in all_jpg:
+            pot = os.path.basename(path).split('_')[0]
+            if pot in self.test_path:
+                self.test_path[pot].append(path)
+            else:
+                self.test_path[pot] = []
+
+        if self.is_train:
+            data_path = self.train_path
+        else:
+            data_path = self.test_path
+        self.indexs = data_path
+        assert len(self.indexs) > 0, "input valid dataset!"
+        print("loading %d datasets" % (len(self.indexs)))
+        self.num_class = len(self.writer_dict)
+
+    def __getitem__(self, index):
+        num_random = self.num_img
+        img_list = []
+        label_list = []
+        pot_name = random.choice(list(self.indexs.keys()))
+        tmp_path = self.indexs[pot_name]
+        random_indexs = random.sample(tmp_path,num_random)
+        for path in random_indexs:
+            img = Image.open(path).convert('L')
+            data = transform_data(img)
+            img_list.append(data)
+        label = int(pot_name)
+        img_list = torch.cat(img_list,0)
+        if num_random==1:
+            char = os.path.basename(path).split('_')[1]
+            return img_list, label, char
+        return img_list, label
+
+    def __len__(self):
+        return self.all_len
+
+class Online_Gen_Dataset(Dataset):
+    def __init__(self, data_path='lmdb', is_train=True):
+        self.is_train = is_train
+        if is_train:
+            lmdb_path = os.path.join(data_path, 'train')
+        else:
+            lmdb_path = os.path.join(data_path, 'test')
+        if not os.path.exists(lmdb_path):
+            print("input the correct lmdb path")
+            raise NotImplementedError
+        
+        self.char_dict = pickle.load(open(os.path.join(data_path, 'character_dict.pkl'), 'rb'))
+        if len(self.char_dict) == 7185:
+            self.use_gb = True
+            self.GB2312_char_dict = pickle.load(open('./data/GB2312_character_dict.pkl', 'rb'))
+        else:
+            self.use_gb = False
+        self.writer_dict = pickle.load(open(os.path.join(data_path, 'writer_dict.pkl'), 'rb'))
+        self.lmdb = lmdb.open(lmdb_path, max_readers=8, readonly=True, lock=False, readahead=False, meminit=False)
+        self.max_len = -1  # 100 disable
+        self.alphabet = ''  # '01234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        self.cat_xy_grid = True
+
+        with self.lmdb.begin(write=False) as txn:
+            self.num_sample = int(txn.get('num_sample'.encode('utf-8')).decode())
+            if len(self.alphabet) <= 0:
+                self.indexes = list(range(0, self.num_sample))
+            else:
+                print('filter data out of alphabet')
+                self.indexes = []
+                for i in range(self.num_sample):
+                    data_id = str(i).encode('utf-8')
+                    data_byte = txn.get(data_id)
+                    character_id = pickle.loads(data_byte)['character_id']
+                    tag_char = self.char_dict[character_id]
+                    if tag_char in self.alphabet:
+                        self.indexes.append(i)
+
+    def __getitem__(self, index):
+        if self.is_train:
+            index = index % (len(self))
+        index = self.indexes[index]
+
+        with self.lmdb.begin(write=False) as txn:
+            data = pickle.loads(txn.get(str(index).encode('utf-8')))
+            character_id, coords, writer_id = data['character_id'], data['coordinates'], data['writer_id']
+        if self.is_train and self.max_len > 0:
+            l_seq = sum([len(l)//2 for l in coords])
+            if l_seq > self.max_len:
+                print('skip {},{}'.format(index, self.char_dict[character_id]))
+                return self[index+1] 
+        try:
+            coords = corrds2xys(coords) 
+        except:
+            print('error')
+            return self[index+1]
+
+
+        if self.use_gb:
+            char = self.char_dict[character_id]
+            character_id = self.GB2312_char_dict.find(char)
+        if coords is None:
+            return self[index+1]
+        else:
+            pass
+        return {'coords': torch.Tensor(coords),
+                'character_id': torch.Tensor([character_id]),
+                'writer_id': torch.Tensor([writer_id])}
+
+    def __len__(self):
+        return len(self.indexes)
+
+    def collate_fn_(self, batch_data):
+        bs = len(batch_data)
+        max_len = max([s['coords'].shape[0] for s in batch_data])
+        output = {'coords': torch.zeros((bs, max_len, 5)), # (x,y,state)
+                  'coords_len': torch.zeros((bs, )),
+                  'character_id': torch.zeros((bs,)),
+                  'writer_id': torch.zeros((bs,))}
+       
+        for i in range(bs):
+            s = batch_data[i]['coords'].shape[0]
+            output['coords'][i, :s] = batch_data[i]['coords']
+            output['coords_len'][i] = s
+            output['character_id'][i] = batch_data[i]['character_id']
+            output['writer_id'][i] = batch_data[i]['writer_id']
+        # output['coords'][:,:,:2] = output['coords'][:,:,:2]*200.
+        return output

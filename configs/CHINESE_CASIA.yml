@@ -29,5 +29,5 @@ DATA_LOADER:
   NUM_THREADS: 8
   CONCAT_GRID: True
   TYPE: ScriptDataset
-  PATH: data
+  PATH: /home/SSD/qiangya/SDT/data
   DATASET: CHINESE
