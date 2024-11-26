@@ -133,28 +133,28 @@ python train.py --cfg configs/English_CASIA.yml --log English_log
 ```
 
 **Qualitative Test**
-- To generate **online** Chinese handwritings with our SDT, run this command:
+- To generate **online Chinese handwritings** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/Chinese
 ```
-- To generate **offline** Chinese handwriting images with our SDT, run this command:
+- To generate **offline Chinese handwriting images** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/Chinese
 ```
 
-- To generate **online** Japanese handwritings with our SDT, run this command:
+- To generate **online Japanese handwritings** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/Japanese
 ```
-- To generate **offline** Japanese handwriting images with our SDT, run this command:
+- To generate **offline Japanese handwriting images** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/Japanese
 ```
-- To generate **online** English handwritings with our SDT, run this command:
+- To generate **online English handwritings** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type online --sample_size 500 --dir Generated/English
 ```
-- To generate **offline** English handwriting images with our SDT, run this command:
+- To generate **offline English handwriting images** with our SDT, run this command:
 ```
 python test.py --pretrained_model checkpoint_path --store_type offline --sample_size 500 --dir Generated_img/English
 ```
