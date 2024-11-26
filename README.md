@@ -105,8 +105,8 @@ We provide Chinese, Japanese and English datasets in [Google Drive](https://driv
 ## 🍔 Pre-trained model
 - We provide the pre-trained content encoder model in [Google Drive](https://drive.google.com/drive/folders/1N-MGRnXEZmxAW-98Hz2f-o80oHrNaN_a?usp=share_link) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u. Please download and put it to the /model_zoo. 
 - We provide the well-trained SDT model in [Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u, so that users can get rid of retraining one and play it right away.
-- We provide the well-trained content recognizer model in [Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u, so that users can get rid of retraining one and calculate the Content Score of generated handwritings.
-- We provide the well-trained writer identifier model in [Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u, so that users can get rid of retraining one and calculate the Style Score of generated handwritings.
+- We provide the well-trained content recognizer model in [Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u, so that users can calculate the Content Score of generated handwritings. Please download and put it to the /model_zoo. 
+- We provide the well-trained writer identifier model in [Google Drive](https://drive.google.com/drive/folders/1LendizOwcNXlyY946ThS8HQ4wJX--YL7?usp=sharing) | [Baidu Netdisk](https://pan.baidu.com/s/1RNQSRhBAEFPe2kFXsHZfLA) PW:xu9u, so that users can calculate the Style Score of generated handwritings. Please download and put it to the /model_zoo. 
 ## 🚀 Training & Test
 **Training**
 - To train the SDT on the Chinese dataset, run this command:
@@ -144,7 +144,6 @@ python test.py --pretrained_model checkpoint_path --store_type online --sample_s
 - To evaluate the generated handwritings, you need to set `data_path` to the path of the generated handwritings (e.g., Generated/Chinese), and run this command:
 ```
 python evaluate.py --data_path Generated/Chinese --metric DTW
-
 ```
 - To calculate the Content Score of generated handwritings, you need to set `data_path` and `pretrained_content_model` to the path of the generated handwritings(e.g., Generated/Chinese) and the pretrained content recognizer(e.g., models_zoo/chinese_iter30k_acc95.pth), and run this command:
 ```
