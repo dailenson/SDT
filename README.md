@@ -34,6 +34,7 @@ Three samples of online characters with writing orders
 </p>
 
 ## 📅 News
+- [2025/06/26] 🎉🎉🎉 DiffBrush, a novel state-of-the-art approach for full-line text generation, is accepted to ICCV 2025.
 - [2024/11/26] 🎉🎉🎉 Release of the implementations of Content Score and Style Score. 
 - [2024/07/01] 🎉🎉🎉 A new state-of-the-art method for handwritten text generation, named [One-DM](https://github.com/dailenson/One-DM), is accepted by ECCV 2024. 
 - [2024/01/07] Add a tutorial and code for synthesizing handwriting with user-customized styles, more information can be found [here](https://github.com/dailenson/SDT/issues/43).
